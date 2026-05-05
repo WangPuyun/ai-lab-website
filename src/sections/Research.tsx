@@ -32,10 +32,10 @@ const content = {
 }
 
 const images = [
-  '/images/research-1.jpg',
-  '/images/research-2.jpg',
-  '/images/research-3.jpg',
-  '/images/research-4.jpg',
+  `${import.meta.env.BASE_URL}images/research-1.jpg`,
+  `${import.meta.env.BASE_URL}images/research-2.jpg`,
+  `${import.meta.env.BASE_URL}images/research-3.jpg`,
+  `${import.meta.env.BASE_URL}images/research-4.jpg`,
 ]
 
 export default function Research() {

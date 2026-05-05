@@ -158,7 +158,7 @@ export default function Team() {
             {/* Photo */}
             <div className="lg:w-[360px] flex-shrink-0">
               <img
-                src="/images/pi-photo.jpg"
+                src={`${import.meta.env.BASE_URL}images/pi-photo.jpg`}
                 alt={t.piName}
                 className="w-full h-full object-cover"
                 style={{ minHeight: '320px', maxHeight: '420px' }}
