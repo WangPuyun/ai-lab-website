@@ -1,0 +1,46 @@
+/* Apple-style smooth elements */
+::selection {
+  background-color: rgba(29, 29, 31, 0.12);
+  color: #1d1d1f;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d2d2d7;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #86868b;
+}
+
+/* Research card image hover */
+.research-card:hover img {
+  filter: grayscale(0%) !important;
+  transform: scale(1.05);
+}
+
+.research-card img {
+  transition: filter 0.8s ease, transform 0.8s ease;
+}
+
+/* Member card transitions */
+.member-card {
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Open source card */
+.os-card {
+  transition: background-color 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.os-card:hover {
+  transform: translateY(-4px);
+}
