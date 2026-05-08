@@ -25,20 +25,9 @@ const content = {
 
 const publications = {
   zh: [
-    { id: 1, type: 'paper' as const, title: 'Deep-Learning-Enhanced Computational Polarization Imaging via End-to-End Optimization', authors: '张明远, 李思远*, 王晓峰, 陈思琪', venue: 'Nature Photonics', year: '2024', abstract: '提出了一种端到端优化的计算偏振成像框架，将物理光学模型与深度神经网络深度融合，实现了在低信噪比条件下的高精度偏振信息重建。', link: '#' },
-    { id: 2, type: 'patent' as const, title: '一种基于压缩感知的高光谱成像系统及其重建方法', authors: '李思远, 张明远, 刘宇航', venue: '国家知识产权局', year: '2024', abstract: '本发明公开了一种基于压缩感知的高光谱成像系统，通过编码孔径与深度学习重建算法的协同设计，实现了快照式高光谱成像。', link: '#' },
-    { id: 3, type: 'paper' as const, title: 'Event-Driven Neuromorphic Vision Sensor for High-Speed Dynamic Scene Capture', authors: '王晓峰, 赵文博, 李思远*', venue: 'IEEE TPAMI', year: '2023', abstract: '设计了一种新型事件驱动神经形态视觉传感器，采用自适应时间对比度阈值机制，在高速动态场景捕获中实现了比传统相机高100倍的时间分辨率。', link: '#' },
-    { id: 4, type: 'paper' as const, title: 'Physics-Informed Neural Network for Sub-wavelength Nanostructure Metrology', authors: '陈思琪, 李思远*, 张明远', venue: 'Light: S&A', year: '2023', abstract: '将物理信息神经网络引入亚波长纳米结构测量领域，通过嵌入电磁散射物理约束，实现了对复杂纳米结构几何参数的高精度反演测量。', link: '#' },
-    { id: 5, type: 'patent' as const, title: '基于物理先验深度学习的低光照图像增强方法', authors: '刘宇航, 李思远, 王晓峰', venue: '国家知识产权局', year: '2023', abstract: '本发明提出了一种融合物理成像先验的深度学习低光照图像增强方法，通过显式建模噪声统计特性与光照退化物理过程。', link: '#' },
-    { id: 6, type: 'paper' as const, title: 'Multi-modal Computational Imaging with Co-designed Optics and Algorithms: A Survey', authors: '李思远*, 赵文博, 张明远, 王晓峰', venue: 'Optica', year: '2023', abstract: '全面综述了多模态计算成像领域中共设计光学与算法的最新进展，提出了统一的数学框架。', link: '#' },
+    { id: 1, type: 'paper' as const, title: 'Structure-Aware Consistency Priors for Shape from Polarization in Complex Media', authors: 'Kaimin Yu, Puyun Wang, Huayang He, Xianyu Wu*', venue: 'International Conference on Machine Learning (ICML)', year: '2026', abstract: '本文面向冰等复杂介质SfP难题，提出结构感知偏振一致性先验与双分支IceSfP网络，实现单视角高精度表面法线估计，并构建首个真实冰介质SfP数据集。', link: '#' },
   ],
   en: [
-    { id: 1, type: 'paper' as const, title: 'Deep-Learning-Enhanced Computational Polarization Imaging via End-to-End Optimization', authors: 'M. Zhang, S. Li*, X. Wang, S. Chen', venue: 'Nature Photonics', year: '2024', abstract: 'An end-to-end optimized computational polarization imaging framework integrating physical optics with deep neural networks for high-precision reconstruction under low SNR.', link: '#' },
-    { id: 2, type: 'patent' as const, title: 'Hyperspectral Imaging System Based on Compressed Sensing', authors: 'S. Li, M. Zhang, Y. Liu', venue: 'CNIPA', year: '2024', abstract: 'A snapshot hyperspectral imaging system based on compressed sensing with co-designed coded aperture and deep learning reconstruction.', link: '#' },
-    { id: 3, type: 'paper' as const, title: 'Event-Driven Neuromorphic Vision Sensor for High-Speed Dynamic Scenes', authors: 'X. Wang, W. Zhao, S. Li*', venue: 'IEEE TPAMI', year: '2023', abstract: 'A novel event-driven neuromorphic vision sensor with adaptive temporal contrast threshold, achieving 100x temporal resolution over conventional cameras.', link: '#' },
-    { id: 4, type: 'paper' as const, title: 'Physics-Informed Neural Network for Sub-wavelength Nanostructure Metrology', authors: 'S. Chen, S. Li*, M. Zhang', venue: 'Light: S&A', year: '2023', abstract: 'Introducing physics-informed neural networks into sub-wavelength nanostructure metrology with electromagnetic scattering constraints for <1nm accuracy.', link: '#' },
-    { id: 5, type: 'patent' as const, title: 'Low-Light Image Enhancement via Physics-Prior Deep Learning', authors: 'Y. Liu, S. Li, X. Wang', venue: 'CNIPA', year: '2023', abstract: 'A deep learning low-light enhancement method with physical imaging priors through explicit noise and degradation modeling.', link: '#' },
-    { id: 6, type: 'paper' as const, title: 'Multi-modal Computational Imaging: Co-designed Optics and Algorithms Survey', authors: 'S. Li*, W. Zhao, M. Zhang, X. Wang', venue: 'Optica', year: '2023', abstract: 'A comprehensive review of co-designed optics and algorithms for multi-modal computational imaging with a unified mathematical framework.', link: '#' },
   ],
 }
 
