@@ -164,36 +164,53 @@ export default function Team() {
   useEffect(() => {
     const container = membersScrollerRef.current
     if (!container) return
+    let edgeReleaseStreak = 0
 
     const handleWheel = (event: WheelEvent) => {
       const maxScrollLeft = container.scrollWidth - container.clientWidth
       if (maxScrollLeft <= 0) return
 
-      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
+      let delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
       if (delta === 0) return
+
+      // Normalize delta for devices/browsers with line/page wheel units.
+      if (event.deltaMode === 1) delta *= 16
+      if (event.deltaMode === 2) delta *= container.clientWidth
+
+      // Clamp step to avoid jumping to edges on fast wheel momentum.
+      const clampedDelta = Math.max(-120, Math.min(120, delta))
 
       const atStart = container.scrollLeft <= 0
       const atEnd = container.scrollLeft >= maxScrollLeft - 1
-      const isScrollingLeft = delta < 0
-      const isScrollingRight = delta > 0
+      const isScrollingLeft = clampedDelta < 0
+      const isScrollingRight = clampedDelta > 0
 
       if ((isScrollingLeft && atStart) || (isScrollingRight && atEnd)) {
+        edgeReleaseStreak += 1
+        if (edgeReleaseStreak >= 2) {
+          return
+        }
+
+        // Consume the first edge-hit event to reduce accidental page scroll flicker.
+        if (event.cancelable) event.preventDefault()
+        event.stopPropagation()
         return
       }
 
-      event.preventDefault()
+      edgeReleaseStreak = 0
+      if (event.cancelable) event.preventDefault()
       event.stopPropagation()
 
       const nextScrollLeft = Math.min(
         maxScrollLeft,
-        Math.max(0, container.scrollLeft + delta)
+        Math.max(0, container.scrollLeft + clampedDelta)
       )
       container.scrollLeft = nextScrollLeft
     }
 
-    container.addEventListener('wheel', handleWheel, { passive: false })
+    container.addEventListener('wheel', handleWheel, { passive: false, capture: true })
     return () => {
-      container.removeEventListener('wheel', handleWheel)
+      container.removeEventListener('wheel', handleWheel, { capture: true })
     }
   }, [])
 
