@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+﻿import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 // import { Mail } from 'lucide-react'
@@ -16,6 +16,7 @@ const content = {
     eduLabel: '教育背景',
     researchLabel: '研究方向',
     achievementLabel: '学术成就',
+    bioLabel: '个人简介',
     // emailLabel: '发送邮件',
   },
   en: {
@@ -27,6 +28,7 @@ const content = {
     eduLabel: 'Education',
     researchLabel: 'Research Interests',
     achievementLabel: 'Achievements',
+    bioLabel: 'Biography',
     // emailLabel: 'Send Email',
   },
 }
@@ -60,6 +62,10 @@ const piInfo = {
       '30+ granted invention patents',
       'IEEE / OPTICA Member',
     ],
+  },
+  bio: {
+    zh: '长期从事智能计算成像、精密仪器与测量、神经形态视觉传感系统构建与计算等前沿领域的研究。作为项目负责人，承担国家级重点项目课题及多项国家级、部委和省级科研项目，近五年发表高水平学术论文三十余篇。',
+    en: 'His research focuses on frontier areas such as intelligent computational imaging, precision instrumentation and metrology, and neuromorphic vision sensing systems and computing. As a principal investigator, he has led key national research projects and multiple national-, ministerial-, and provincial-level research programs, and has published over 30 high-impact academic papers in the past five years.',
   },
 }
 
@@ -208,18 +214,29 @@ export default function Team() {
                 </div>
               </div>
 
-              <div className="mt-8">
-                <h4 className="text-xs font-semibold uppercase tracking-wide mb-3" style={{ color: '#86868b' }}>
-                  {t.achievementLabel}
-                </h4>
-                <ul className="space-y-2">
-                  {piInfo.achievements[lang].map((ach, i) => (
-                    <li key={i} className="text-sm flex items-start gap-2.5" style={{ color: '#424245', lineHeight: 1.5 }}>
-                      <span style={{ color: '#FFDF19', marginTop: '2px' }}>●</span>
-                      {ach}
-                    </li>
-                  ))}
-                </ul>
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-xs font-semibold uppercase tracking-wide mb-3" style={{ color: '#86868b' }}>
+                    {t.achievementLabel}
+                  </h4>
+                  <ul className="space-y-2">
+                    {piInfo.achievements[lang].map((ach, i) => (
+                      <li key={i} className="text-sm flex items-start gap-2.5" style={{ color: '#424245', lineHeight: 1.5 }}>
+                        <span style={{ color: '#FFDF19', marginTop: '2px' }}>•</span>
+                        {ach}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-semibold uppercase tracking-wide mb-3" style={{ color: '#86868b' }}>
+                    {t.bioLabel}
+                  </h4>
+                  <p className="text-sm" style={{ color: '#424245', lineHeight: 1.8 }}>
+                    {piInfo.bio[lang]}
+                  </p>
+                </div>
               </div>
 
               {/* <a

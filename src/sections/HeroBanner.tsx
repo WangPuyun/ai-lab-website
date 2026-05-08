@@ -53,9 +53,8 @@ export default function HeroBanner() {
     <section
       id="hero"
       ref={heroRef}
-      className="relative w-full flex flex-col items-center justify-center text-center"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center text-center"
       style={{
-        minHeight: '85vh',
         paddingTop: '100px',
         background: 'linear-gradient(180deg, #f5f7fa 0%, #ffffff 60%)',
       }}
