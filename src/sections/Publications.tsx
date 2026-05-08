@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FileText, Award, ArrowUpRight } from 'lucide-react'
@@ -23,14 +23,113 @@ const content = {
   },
 }
 
-const publications = {
-  zh: [
-    { id: 1, type: 'paper' as const, title: 'Structure-Aware Consistency Priors for Shape from Polarization in Complex Media', authors: 'Kaimin Yu, Puyun Wang, Huayang He, Xianyu Wu*', venue: 'International Conference on Machine Learning (ICML)', year: '2026', abstract: '本文面向冰等复杂介质的偏振三维重建难题，提出结构感知偏振一致性先验与双分支IceSfP网络，实现单视角高精度表面法线估计，并构建首个真实冰介质偏振三维重建数据集。', link: '#' },
-  ],
-  en: [
-  ],
-}
+const sharedPublications = [
+  {
+    id: 1,
+    type: 'paper' as const,
+    title: 'Structure-Aware Consistency Priors for Shape from Polarization in Complex Media',
+    authors: 'Yu, KM, Wang, PY, He, HY, Wu, XY',
+    venue: 'International Conference on Machine Learning (ICML 2026)',
+    year: '2026',
+    abstract: 'This paper addresses SfP in ice and other complex media by proposing a structure-aware polarization consistency prior and a dual-branch IceSfP network, enabling high-precision single-view surface normal estimation and constructing the first real-world ice SfP dataset.',
+    link: '',
+  },
+  {
+    id: 2,
+    type: 'paper' as const,
+    title: 'MuS-Polar3D: A Benchmark Dataset for Computational Polarimetric 3D Imaging under Multi-Scattering Conditions',
+    authors: 'Wang, PY, Yu, KM, He, HY, Wu, XY',
+    venue: 'arXiv preprint arXiv:2512.21513',
+    year: '2025',
+    abstract: 'Polarization-based underwater 3D imaging exploits polarization cues to suppress background scattering, exhibiting distinct advantages in turbid water.',
+    link: 'https://arxiv.org/pdf/2512.21513',
+  },
+  {
+    id: 3,
+    type: 'paper' as const,
+    title: 'Polarization video frame interpolation for 3D human pose reconstruction with attention mechanism',
+    authors: 'Zhang, X, Wang, XS, Wu, XY, Huang, F',
+    venue: 'Optics and Lasers in Engineering',
+    year: '2025',
+    abstract: 'Video frame interpolation has been extensively explored and demonstrated, yet its application to polarization remains largely unexplored.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001493374500001',
+  },
+  {
+    id: 4,
+    type: 'paper' as const,
+    title: 'Deep learning-based polarization 3D imaging method for underwater targets',
+    authors: 'Wu, XY, Chen, JT, Huang, F',
+    venue: 'Optics Express',
+    year: '2025',
+    abstract: 'The significant absorption and scattering of light during its propagation in water severely degrade the quality of underwater imaging.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001420800500011',
+  },
+  {
+    id: 5,
+    type: 'paper' as const,
+    title: 'Enhancing three-source cross-modality image fusion with improved DenseNet for infrared polarization and visible light images',
+    authors: 'Wang, XS, Zhou, B, Wu, XY, Huang, F',
+    venue: 'Infrared Physics & Technology',
+    year: '2024',
+    abstract: 'The fusion of multi-modal images to create an image that preserves the unique features of each modality.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001298305600001',
+  },
+  {
+    id: 6,
+    type: 'paper' as const,
+    title: 'LVTSR: learning visible image texture network for infrared polarization super-resolution imaging',
+    authors: 'Wang, XS, Chen, YT, Wu, XY, Huang, F',
+    venue: 'Optics Express',
+    year: '2024',
+    abstract: 'Infrared polarization division-of-focal-plane imaging technology has gained attention.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001300255200007',
+  },
+  {
+    id: 7,
+    type: 'paper' as const,
+    title: 'Bio-inspired foveal super-resolution method for multi-focal-length images based on local gradient constraints',
+    authors: 'Huang, F, Wang, XS, Wu, XY, Huang, F',
+    venue: 'Optics Express',
+    year: '2024',
+    abstract: 'Most existing super-resolution imaging systems utilize image registration and reconstruction algorithms.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001239610200002',
+  },
+  {
+    id: 8,
+    type: 'paper' as const,
+    title: 'Three Dimensional Shape Reconstruction via Polarization Imaging and Deep Learning',
+    authors: 'Wu, XY, Li, PH, Huang, F',
+    venue: 'Sensors',
+    year: '2023',
+    abstract: 'Deep-learning-based polarization 3D imaging techniques for estimating surface normal distribution.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A000997213600001',
+  },
+  {
+    id: 9,
+    type: 'paper' as const,
+    title: 'SwinIPISR: A Super-Resolution Method for Infrared Polarization Imaging Sensors via Swin Transformer',
+    authors: 'Wu, XY, Zhou, B, Huang, F',
+    venue: 'IEEE Sensors Journal',
+    year: '2024',
+    abstract: 'The performance of infrared polarization remote sensing systems is limited by sensor resolution.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001136951300048',
+  },
+  {
+    id: 10,
+    type: 'paper' as const,
+    title: 'High-Efficiency Multispectral-Polarization Imaging System Using Polarization Camera Array With Notch Filters',
+    authors: 'Huang, F, Cao, RJ, Wu, XY',
+    venue: 'IEEE Transactions on Instrumentation and Measurement',
+    year: '2023',
+    abstract: 'Incident light captured by optical imaging systems engenders multidimensional high-level optical information.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001102358800027',
+  },
+]
 
+const publications = {
+  zh: sharedPublications,
+  en: sharedPublications,
+}
 export default function Publications() {
   const { lang } = useLanguage()
   const t = content[lang]
@@ -179,3 +278,4 @@ export default function Publications() {
     </section>
   )
 }
+
