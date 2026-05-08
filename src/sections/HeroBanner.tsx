@@ -7,7 +7,7 @@ const content = {
     supertitle: 'AOCI Lab',
     title: '先进光学成像',
     titleLine2: '与计算感知实验室',
-    subtitle: '探索从精密测量到类脑视觉的下一代感知范式',
+    subtitle: '探索人工智能、计算成像与类脑视觉的下一代感知范式',
     cta1: '了解团队',
     cta2: '研究方向',
   },

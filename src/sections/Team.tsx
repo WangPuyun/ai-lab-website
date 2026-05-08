@@ -11,35 +11,37 @@ const content = {
     supertitle: 'TEAM',
     title: '团队介绍',
     subtitle: '由资深教授领衔，汇聚优秀的博士与硕士研究生',
-    piName: '李思远',
-    piTitle: '教授 / 博士生导师 / 实验室主任',
+    piName: '吴衔誉',
+    piTitle: '教授 / 博士生导师 ',
     eduLabel: '教育背景',
     researchLabel: '研究方向',
     achievementLabel: '学术成就',
-    emailLabel: '发送邮件',
+    // emailLabel: '发送邮件',
   },
   en: {
     supertitle: 'TEAM',
     title: 'Our Team',
     subtitle: 'Led by senior professors, bringing together outstanding PhD and master students',
-    piName: 'Prof. Siyuan Li',
-    piTitle: 'Professor / PhD Supervisor / Lab Director',
+    piName: 'Prof. Xianyu Wu',
+    piTitle: 'Professor / PhD Supervisor ',
     eduLabel: 'Education',
     researchLabel: 'Research Interests',
     achievementLabel: 'Achievements',
-    emailLabel: 'Send Email',
+    // emailLabel: 'Send Email',
   },
 }
 
 const piInfo = {
   education: {
     zh: [
-      '清华大学 光学工程 博士（2008-2013）',
-      '浙江大学 测控技术与仪器 学士（2004-2008）',
+      '北卡罗莱纳州立大学 硕士、博士（2012-2018）',
+      '普渡大学 电子与计算机工程 硕士（2011-2012）',
+      '电子科技大学 机械电子工程学院 学士（2007-2011）',
     ],
     en: [
-      'Ph.D. in Optical Engineering, Tsinghua University (2008-2013)',
-      'B.S. in Measurement & Control, Zhejiang University (2004-2008)',
+      'M.S. and Ph.D. in Mechanical Engineering, North Carolina State University (2012-2018)',
+      'M.S. in Electrical and Computer Engineering, Purdue University (2011-2012)',
+      'B.S. in Mechatronic Engineering, University of Electronic Science and Technology of China (2007-2011)',
     ],
   },
   research: {
@@ -48,16 +50,15 @@ const piInfo = {
   },
   achievements: {
     zh: [
-      '国家杰出青年科学基金获得者',
-      '发表SCI论文120余篇，引用6000余次',
-      '授权发明专利30余项',
-      'IEEE/OSA Fellow',
+      '福建省高层次人才（B类）',
+      '福州大学旗山学者',
+      'IEEE / OPTICA Member',
     ],
     en: [
       'National Science Fund for Distinguished Young Scholars',
       '120+ SCI papers, 6000+ citations',
       '30+ granted invention patents',
-      'IEEE / OSA Fellow',
+      'IEEE / OPTICA Member',
     ],
   },
 }
@@ -221,14 +222,14 @@ export default function Team() {
                 </ul>
               </div>
 
-              <a
+              {/* <a
                 href="mailto:siyuan.li@university.edu.cn"
                 className="inline-flex items-center gap-2 mt-8 text-sm font-medium transition-opacity duration-200 hover:opacity-70"
                 style={{ color: '#0066cc' }}
               >
                 <Mail size={15} />
                 {t.emailLabel}
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
