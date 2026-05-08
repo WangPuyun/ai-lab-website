@@ -25,7 +25,7 @@ const content = {
 
 const publications = {
   zh: [
-    { id: 1, type: 'paper' as const, title: 'Structure-Aware Consistency Priors for Shape from Polarization in Complex Media', authors: 'Kaimin Yu, Puyun Wang, Huayang He, Xianyu Wu*', venue: 'International Conference on Machine Learning (ICML)', year: '2026', abstract: '本文面向冰等复杂介质SfP难题，提出结构感知偏振一致性先验与双分支IceSfP网络，实现单视角高精度表面法线估计，并构建首个真实冰介质SfP数据集。', link: '#' },
+    { id: 1, type: 'paper' as const, title: 'Structure-Aware Consistency Priors for Shape from Polarization in Complex Media', authors: 'Kaimin Yu, Puyun Wang, Huayang He, Xianyu Wu*', venue: 'International Conference on Machine Learning (ICML)', year: '2026', abstract: '本文面向冰等复杂介质的偏振三维重建难题，提出结构感知偏振一致性先验与双分支IceSfP网络，实现单视角高精度表面法线估计，并构建首个真实冰介质偏振三维重建数据集。', link: '#' },
   ],
   en: [
   ],
