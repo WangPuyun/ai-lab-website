@@ -12,10 +12,10 @@ const content = {
     title: '研究方向',
     subtitle: '在光学成像与计算感知的交叉领域，开展前沿科学研究',
     areas: [
-      { title: '精密光学成像', titleLine2: '与测量仪器', desc: '超精密干涉测量、三维形貌重构与纳米级检测技术，面向半导体制造与精密工程的先进测量系统。' },
-      { title: '计算光谱', titleLine2: '/ 偏振成像', desc: '压缩感知光谱重建、计算偏振成像与多维度光场获取，突破传统光学系统的物理信息维度限制。' },
-      { title: '视觉信息检测', titleLine2: '与人工智能', desc: '融合深度学习与物理光学先验，研究低质量图像增强、缺陷检测与端到端计算成像算法。' },
-      { title: '神经形态', titleLine2: '视觉传感', desc: '类脑视觉传感器、事件驱动成像与脉冲神经网络，探索面向边缘智能的新一代仿生感知架构。' },
+      { title: '精密光学成像与测量仪器', titleLine2: '', desc: '超精密干涉测量、三维形貌重构与纳米级检测技术，面向半导体制造与精密工程的先进测量系统。' },
+      { title: '计算光谱 / 偏振成像', titleLine2: '', desc: '压缩感知光谱重建、计算偏振成像与多维度光场获取，突破传统光学系统的物理信息维度限制。' },
+      { title: '视觉信息检测与人工智能', titleLine2: '', desc: '融合深度学习与物理光学先验，研究低质量图像增强、缺陷检测与端到端计算成像算法。' },
+      { title: '神经形态视觉传感', titleLine2: '', desc: '类脑视觉传感器、事件驱动成像与脉冲神经网络，探索面向边缘智能的新一代仿生感知架构。' },
     ],
   },
   en: {
@@ -23,10 +23,10 @@ const content = {
     title: 'Research Directions',
     subtitle: 'Conducting frontier research at the intersection of optical imaging and computational perception',
     areas: [
-      { title: 'Precision Optical', titleLine2: 'Imaging & Metrology', desc: 'Ultra-precision interferometry, 3D topography reconstruction, and nanoscale detection for semiconductor manufacturing.' },
-      { title: 'Computational', titleLine2: 'Spectral / Polarization', desc: 'Compressed sensing spectral reconstruction, computational polarization imaging, and multi-dimensional light field acquisition.' },
-      { title: 'Visual Detection', titleLine2: '& Artificial Intelligence', desc: 'Deep learning with physical optics priors for low-quality image enhancement, defect detection, and end-to-end computational imaging.' },
-      { title: 'Neuromorphic', titleLine2: 'Vision Sensing', desc: 'Brain-inspired vision sensors, event-driven imaging, and spiking neural networks for edge intelligence.' },
+      { title: 'Precision Optical Imaging & Metrology', titleLine2: '', desc: 'Ultra-precision interferometry, 3D topography reconstruction, and nanoscale detection for semiconductor manufacturing.' },
+      { title: 'Computational Spectral / Polarization', titleLine2: '', desc: 'Compressed sensing spectral reconstruction, computational polarization imaging, and multi-dimensional light field acquisition.' },
+      { title: 'Visual Detection & Artificial Intelligence', titleLine2: '', desc: 'Deep learning with physical optics priors for low-quality image enhancement, defect detection, and end-to-end computational imaging.' },
+      { title: 'Neuromorphic Vision Sensing', titleLine2: '', desc: 'Brain-inspired vision sensors, event-driven imaging, and spiking neural networks for edge intelligence.' },
     ],
   },
 }

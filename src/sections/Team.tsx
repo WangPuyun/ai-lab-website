@@ -110,11 +110,22 @@ export default function Team() {
   const { lang } = useLanguage()
   const t = content[lang]
   const members = teamMembers[lang]
+  const membersPerPage = 6
+  const memberPages = Array.from(
+    { length: Math.ceil(members.length / membersPerPage) },
+    (_, pageIndex) =>
+      members.slice(
+        pageIndex * membersPerPage,
+        pageIndex * membersPerPage + membersPerPage
+      )
+  )
 
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const piRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
+  const membersScrollerRef = useRef<HTMLDivElement>(null)
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -148,6 +159,42 @@ export default function Team() {
     }, sectionRef)
 
     return () => ctx.revert()
+  }, [])
+
+  useEffect(() => {
+    const container = membersScrollerRef.current
+    if (!container) return
+
+    const handleWheel = (event: WheelEvent) => {
+      const maxScrollLeft = container.scrollWidth - container.clientWidth
+      if (maxScrollLeft <= 0) return
+
+      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
+      if (delta === 0) return
+
+      const atStart = container.scrollLeft <= 0
+      const atEnd = container.scrollLeft >= maxScrollLeft - 1
+      const isScrollingLeft = delta < 0
+      const isScrollingRight = delta > 0
+
+      if ((isScrollingLeft && atStart) || (isScrollingRight && atEnd)) {
+        return
+      }
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      const nextScrollLeft = Math.min(
+        maxScrollLeft,
+        Math.max(0, container.scrollLeft + delta)
+      )
+      container.scrollLeft = nextScrollLeft
+    }
+
+    container.addEventListener('wheel', handleWheel, { passive: false })
+    return () => {
+      container.removeEventListener('wheel', handleWheel)
+    }
   }, [])
 
   return (
@@ -269,45 +316,58 @@ export default function Team() {
           </div>
         </div>
 
-        {/* Team Members Grid */}
-        <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {members.map((member, index) => {
-            const initial = member.name.charAt(0)
-            return (
-              <div
-                key={index}
-                className="member-card rounded-[20px] p-6 text-center transition-all duration-400"
-                style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.03)' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
-                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                  e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.03)'
-                }}
-              >
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-base font-semibold"
-                  style={{ background: '#1d1d1f', color: '#ffffff' }}
-                >
-                  {initial}
+        {/* Team Members Horizontal Pages (2 rows x 3 cols per page) */}
+        <div ref={gridRef}>
+          <div
+            ref={membersScrollerRef}
+            className="overflow-x-auto overflow-y-hidden pb-2"
+          >
+            <div className="flex gap-4">
+              {memberPages.map((pageMembers, pageIndex) => (
+                <div key={pageIndex} className="min-w-full">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {pageMembers.map((member) => {
+                      const initial = member.name.charAt(0)
+                      return (
+                        <div
+                          key={`${member.name}-${member.year}`}
+                          className="member-card rounded-[20px] p-6 text-center transition-all duration-400"
+                          style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.03)' }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
+                            e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                            e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.03)'
+                          }}
+                        >
+                          <div
+                            className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-base font-semibold"
+                            style={{ background: '#1d1d1f', color: '#ffffff' }}
+                          >
+                            {initial}
+                          </div>
+                          <h4 className="font-semibold text-sm" style={{ color: '#1d1d1f' }}>
+                            {member.name}
+                          </h4>
+                          <p className="text-xs mt-1" style={{ color: '#86868b' }}>
+                            {member.year}
+                          </p>
+                          <span
+                            className="text-xs px-3 py-1 rounded-full inline-block mt-3"
+                            style={{ backgroundColor: '#f5f7fa', color: '#424245' }}
+                          >
+                            {member.research}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
-                <h4 className="font-semibold text-sm" style={{ color: '#1d1d1f' }}>
-                  {member.name}
-                </h4>
-                <p className="text-xs mt-1" style={{ color: '#86868b' }}>
-                  {member.year}
-                </p>
-                <span
-                  className="text-xs px-3 py-1 rounded-full inline-block mt-3"
-                  style={{ backgroundColor: '#f5f7fa', color: '#424245' }}
-                >
-                  {member.research}
-                </span>
-              </div>
-            )
-          })}
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
