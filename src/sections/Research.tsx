@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowUpRight } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -123,9 +122,6 @@ export default function Research() {
                   style={{ filter: 'grayscale(100%)', transition: 'filter 0.8s ease, transform 0.8s ease' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute bottom-5 left-5 w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)' }}>
-                  <ArrowUpRight size={18} color="#1d1d1f" />
-                </div>
               </div>
 
               {/* Text Area */}
