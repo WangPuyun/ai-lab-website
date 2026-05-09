@@ -11,11 +11,13 @@ const content = {
     supertitle: 'OPEN SOURCE',
     title: '开源项目',
     subtitle: '开放研究成果，促进学术交流与技术共享',
+    viewOnGithub: '在 GitHub 上查看',
   },
   en: {
     supertitle: 'OPEN SOURCE',
     title: 'Open Source',
     subtitle: 'Open research outcomes to promote academic exchange and technology sharing',
+    viewOnGithub: 'View on GitHub',
   },
 }
 
@@ -223,15 +225,27 @@ export default function OpenSource() {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-5" style={{ color: '#86868b' }}>
-                  <span className="flex items-center gap-1.5 text-xs">
-                    <Star size={13} />
-                    {stars}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-xs">
-                    <GitFork size={13} />
-                    {forks}
-                  </span>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-5" style={{ color: '#86868b' }}>
+                    <span className="flex items-center gap-1.5 text-xs">
+                      <Star size={13} />
+                      {stars}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs">
+                      <GitFork size={13} />
+                      {forks}
+                    </span>
+                  </div>
+                  <a
+                    href={proj.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all duration-200 hover:opacity-80"
+                    style={{ backgroundColor: '#1d1d1f', color: '#ffffff' }}
+                  >
+                    <Github size={13} />
+                    {t.viewOnGithub}
+                  </a>
                 </div>
               </div>
             )
