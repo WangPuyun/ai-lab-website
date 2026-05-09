@@ -8,6 +8,7 @@ import { useLanguage } from '../context/LanguageContext'
 gsap.registerPlugin(ScrollTrigger)
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
+type MapLoadStatus = 'idle' | 'loading' | 'ready' | 'missing-ak' | 'error'
 
 interface ContactFormState {
   name: string
@@ -19,6 +20,16 @@ interface ContactFormState {
 
 const CONTACT_FORM_ENDPOINT =
   import.meta.env.VITE_CONTACT_FORM_ENDPOINT?.trim() ?? 'https://formspree.io/f/xnjlegwv'
+const BAIDU_MAP_AK = import.meta.env.VITE_BAIDU_MAP_AK?.trim() ?? ''
+const MAP_ADDRESS = '福建省福州市闽侯县上街镇乌龙江北大道2号 福州大学旗山校区先进技术创新研究院'
+const MAP_CITY = '福州'
+const MAP_POI_KEYWORD = '福州大学旗山校区先进技术创新研究院'
+const MAP_SEARCH_URL = `https://map.baidu.com/search/${encodeURIComponent(MAP_ADDRESS)}`
+const MAP_FIXED_LNG_RAW = import.meta.env.VITE_BAIDU_MAP_LNG?.trim() ?? ''
+const MAP_FIXED_LAT_RAW = import.meta.env.VITE_BAIDU_MAP_LAT?.trim() ?? ''
+const MAP_FIXED_LNG = MAP_FIXED_LNG_RAW === '' ? Number.NaN : Number(MAP_FIXED_LNG_RAW)
+const MAP_FIXED_LAT = MAP_FIXED_LAT_RAW === '' ? Number.NaN : Number(MAP_FIXED_LAT_RAW)
+const HAS_FIXED_COORDINATE = Number.isFinite(MAP_FIXED_LNG) && Number.isFinite(MAP_FIXED_LAT)
 
 const INITIAL_FORM_STATE: ContactFormState = {
   name: '',
@@ -32,6 +43,48 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
+declare global {
+  interface Window {
+    BMapGL?: any
+    __baiduMapLoaderPromise?: Promise<any>
+  }
+}
+
+function loadBaiduMapGL(ak: string): Promise<any> {
+  if (typeof window === 'undefined') {
+    return Promise.reject(new Error('Window is unavailable.'))
+  }
+
+  if (window.BMapGL) {
+    return Promise.resolve(window.BMapGL)
+  }
+
+  if (window.__baiduMapLoaderPromise) {
+    return window.__baiduMapLoaderPromise
+  }
+
+  window.__baiduMapLoaderPromise = new Promise((resolve, reject) => {
+    const callbackName = `__baiduMapInit_${Date.now()}`
+    const dynamicWindow = window as unknown as Record<string, unknown>
+
+    dynamicWindow[callbackName] = () => {
+      delete dynamicWindow[callbackName]
+      resolve(window.BMapGL)
+    }
+
+    const script = document.createElement('script')
+    script.src = `https://api.map.baidu.com/api?v=1.0&type=webgl&ak=${encodeURIComponent(ak)}&callback=${callbackName}`
+    script.async = true
+    script.onerror = () => {
+      delete dynamicWindow[callbackName]
+      reject(new Error('Failed to load Baidu Map SDK.'))
+    }
+    document.head.appendChild(script)
+  })
+
+  return window.__baiduMapLoaderPromise
+}
+
 const content = {
   zh: {
     supertitle: 'CONTACT',
@@ -41,7 +94,7 @@ const content = {
       '中国福建省福州市大学城学园路2号 福州大学机械工程及自动化学院 350108',
     emailLabel: '电子邮箱',
     labLabel: '所属单位',
-    labText: '福州大学机械工程及自动化学院',
+    labText: '福州大学机械工程及自动化学院/先进技术创新研究院',
     messageTitle: '发送消息',
     messageDesc: '欢迎发送合作咨询、学生申请与学术交流信息，导师将通过邮箱回复。',
     nameLabel: '姓名',
@@ -109,10 +162,15 @@ export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const mapContainerRef = useRef<HTMLDivElement>(null)
+  const mapInstanceRef = useRef<any>(null)
 
   const [formData, setFormData] = useState<ContactFormState>(INITIAL_FORM_STATE)
   const [formStatus, setFormStatus] = useState<FormStatus>('idle')
   const [statusMessage, setStatusMessage] = useState('')
+  const [mapLoadStatus, setMapLoadStatus] = useState<MapLoadStatus>(
+    BAIDU_MAP_AK ? 'loading' : 'missing-ak'
+  )
 
   useEffect(() => {
     setFormData(INITIAL_FORM_STATE)
@@ -154,6 +212,96 @@ export default function Contact() {
     }, sectionRef)
 
     return () => ctx.revert()
+  }, [])
+
+  useEffect(() => {
+    if (!mapContainerRef.current) {
+      return
+    }
+
+    if (!BAIDU_MAP_AK) {
+      setMapLoadStatus('missing-ak')
+      return
+    }
+
+    let cancelled = false
+    setMapLoadStatus('loading')
+
+    loadBaiduMapGL(BAIDU_MAP_AK)
+      .then((BMapGL) => {
+        if (cancelled || !mapContainerRef.current) {
+          return
+        }
+
+        mapContainerRef.current.innerHTML = ''
+        const map = new BMapGL.Map(mapContainerRef.current)
+        mapInstanceRef.current = map
+
+        const defaultPoint = HAS_FIXED_COORDINATE
+          ? new BMapGL.Point(MAP_FIXED_LNG, MAP_FIXED_LAT)
+          : new BMapGL.Point(119.188983, 26.05242)
+        map.centerAndZoom(defaultPoint, 16)
+        map.enableScrollWheelZoom(true)
+
+        const setLocation = (point: any) => {
+          map.clearOverlays()
+          const marker = new BMapGL.Marker(point)
+          map.addOverlay(marker)
+          map.panTo(point)
+          map.setZoom(16)
+          setMapLoadStatus('ready')
+        }
+
+        const geocoder = new BMapGL.Geocoder()
+        const resolveByGeocoder = () => {
+          geocoder.getPoint(
+            MAP_ADDRESS,
+            (point: any) => {
+              if (cancelled) {
+                return
+              }
+            setLocation(point ?? defaultPoint)
+          },
+          MAP_CITY
+        )
+      }
+
+        if (HAS_FIXED_COORDINATE) {
+          setLocation(defaultPoint)
+          return
+        }
+
+        // Prefer POI search for campus/building names, then fall back to address geocoding.
+        const localSearch = new BMapGL.LocalSearch(map, {
+          onSearchComplete: (results: any) => {
+            if (cancelled) {
+              return
+            }
+
+            const firstPoi = results?.getPoi?.(0)
+            if (firstPoi?.point) {
+              setLocation(firstPoi.point)
+              return
+            }
+
+            resolveByGeocoder()
+          },
+        })
+        localSearch.search(MAP_POI_KEYWORD)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setMapLoadStatus('error')
+        }
+      })
+
+    return () => {
+      cancelled = true
+      if (mapInstanceRef.current && typeof mapInstanceRef.current.destroy === 'function') {
+        mapInstanceRef.current.destroy()
+      }
+      mapInstanceRef.current = null
+    }
   }, [])
 
   const updateField =
@@ -257,6 +405,21 @@ export default function Contact() {
     },
   ]
 
+  const mapStatusLabel =
+    mapLoadStatus === 'missing-ak'
+      ? lang === 'zh'
+        ? '未配置百度地图 AK'
+        : 'Baidu Map AK is missing'
+      : mapLoadStatus === 'error'
+        ? lang === 'zh'
+          ? '地图加载失败，请稍后重试'
+          : 'Map failed to load'
+        : lang === 'zh'
+          ? '地图加载中...'
+          : 'Loading map...'
+
+  const mapNavigateLabel = lang === 'zh' ? '在百度地图中打开' : 'Open in Baidu Maps'
+
   return (
     <section
       id="contact"
@@ -324,31 +487,38 @@ export default function Contact() {
                 border: '1px solid rgba(29,29,31,0.08)',
               }}
             >
-              <div
-                className="relative flex items-center justify-center"
-                style={{
-                  height: '260px',
-                  background:
-                    'linear-gradient(135deg, rgba(34,211,238,0.18) 0%, rgba(59,130,246,0.2) 100%)',
-                }}
-              >
-                <div className="text-center z-10 px-6">
-                  <MapPin size={46} color="#0891b2" style={{ margin: '0 auto 14px' }} />
-                  <p className="text-base font-semibold" style={{ color: '#0f172a' }}>
-                    {lang === 'zh' ? '福州大学' : 'Fuzhou University'}
-                  </p>
-                  <p className="text-sm mt-1" style={{ color: '#475569' }}>
-                    {lang === 'zh' ? '中国 · 福建福州' : 'Fujian, China'}
-                  </p>
-                </div>
+              <div className="relative overflow-hidden" style={{ height: '260px' }}>
+                <div ref={mapContainerRef} className="absolute inset-0 z-0" />
                 <div
-                  className="absolute inset-0 opacity-30"
+                  className="absolute inset-0 z-10 pointer-events-none opacity-20"
                   style={{
                     backgroundImage:
                       'linear-gradient(rgba(8,145,178,0.28) 1px, transparent 1px), linear-gradient(90deg, rgba(8,145,178,0.28) 1px, transparent 1px)',
                     backgroundSize: '20px 20px',
                   }}
                 />
+                {mapLoadStatus !== 'ready' ? (
+                  <div
+                    className="absolute inset-0 z-30 flex items-center justify-center px-6 text-center"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.88)' }}
+                  >
+                    <p className="text-sm font-medium" style={{ color: '#334155' }}>
+                      {mapStatusLabel}
+                    </p>
+                  </div>
+                ) : null}
+
+                <a
+                  href={MAP_SEARCH_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  onMouseDown={(event) => event.stopPropagation()}
+                  onClick={(event) => event.stopPropagation()}
+                  className="absolute bottom-4 right-4 z-40 pointer-events-auto text-xs px-3 py-2 rounded-full transition-opacity hover:opacity-85"
+                  style={{ backgroundColor: 'rgba(17,24,39,0.88)', color: '#ffffff' }}
+                >
+                  {mapNavigateLabel}
+                </a>
               </div>
             </div>
           </div>
