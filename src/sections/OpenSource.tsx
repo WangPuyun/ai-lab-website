@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+﻿import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Github, Star, GitFork } from 'lucide-react'
@@ -19,21 +19,29 @@ const content = {
   },
 }
 
-const projects = {
-  zh: [
-    { name: 'OptiLab-Toolbox', desc: '面向计算成像研究的Python工具箱，集成物理光学仿真、数据集管理与实验可视化模块。', tags: ['Python', 'PyTorch', 'Optics'], stars: 286, forks: 64 },
-    { name: 'PolarNet', desc: '端到端计算偏振成像深度学习框架，支持多种偏振重建网络架构的训练与部署。', tags: ['Python', 'TensorFlow', 'CUDA'], stars: 412, forks: 95 },
-    { name: 'EventVis-Sim', desc: '事件驱动视觉传感器仿真平台，可模拟多种神经形态相机模型的输出特性。', tags: ['C++', 'ROS2', 'Simulation'], stars: 198, forks: 43 },
-    { name: 'HyperSpec-Dataset', desc: '高光谱成像公开数据集，涵盖工业检测、医学成像与农业遥感等多个应用场景。', tags: ['Dataset', 'HDF5', 'Benchmark'], stars: 356, forks: 78 },
-  ],
-  en: [
-    { name: 'OptiLab-Toolbox', desc: 'A Python toolbox for computational imaging research, integrating physical optics simulation, dataset management, and experiment visualization.', tags: ['Python', 'PyTorch', 'Optics'], stars: 286, forks: 64 },
-    { name: 'PolarNet', desc: 'An end-to-end deep learning framework for computational polarization imaging with multiple reconstruction architectures.', tags: ['Python', 'TensorFlow', 'CUDA'], stars: 412, forks: 95 },
-    { name: 'EventVis-Sim', desc: 'An event-driven vision sensor simulation platform for emulating various neuromorphic camera models.', tags: ['C++', 'ROS2', 'Simulation'], stars: 198, forks: 43 },
-    { name: 'HyperSpec-Dataset', desc: 'A public hyperspectral imaging dataset covering industrial inspection, medical imaging, and agricultural remote sensing.', tags: ['Dataset', 'HDF5', 'Benchmark'], stars: 356, forks: 78 },
-  ],
-}
+const sharedProjects = [
+  {
+    name: 'MuS-Polar3D',
+    desc: 'MuS-Polar3D dataset repository, containing multiple SfP evaluation baselines, code for plotting error heatmaps, ORB algorithm code, and more.',
+    tags: ['3D Reconstruction', 'Deep Learning', 'Polarization Imaging', 'PyTorch'],
+    stars: 9,
+    forks: 0,
+    github: 'https://github.com/WangPuyun/MuS-Polar3D',
+  },
+  {
+    name: 'SGuTA-SCubA',
+    desc: 'Polarization video frame interpolation for 3D human pose reconstruction with attention mechanism. A novel approach for polarization-based 3D reconstruction.',
+    tags: ['Polarization', '3D Reconstruction', 'Attention Mechanism', 'Computer Vision'],
+    stars: 1,
+    forks: 0,
+    github: 'https://github.com/esthen-bit/SGuTA-SCubA',
+  },
+]
 
+const projects = {
+  zh: sharedProjects,
+  en: sharedProjects,
+}
 export default function OpenSource() {
   const { lang } = useLanguage()
   const t = content[lang]
@@ -146,3 +154,4 @@ export default function OpenSource() {
     </section>
   )
 }
+
