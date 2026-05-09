@@ -38,7 +38,7 @@ const content = {
     title: '联系我们',
     addressLabel: '通讯地址',
     address:
-      '中国福建省福州市大学城学园路2号\n福州大学机械工程及自动化学院 350108',
+      '中国福建省福州市大学城学园路2号 福州大学机械工程及自动化学院 350108',
     emailLabel: '电子邮箱',
     labLabel: '所属单位',
     labText: '福州大学机械工程及自动化学院',
@@ -281,10 +281,14 @@ export default function Contact() {
           </h2>
         </div>
 
-        <div ref={contentRef} className="flex flex-col lg:flex-row gap-12 pb-24">
-          <div className="lg:w-1/2 space-y-8">
+        <div ref={contentRef} className="flex flex-col lg:flex-row lg:items-stretch gap-12 pb-24">
+          <div className="lg:w-1/2 lg:self-stretch flex flex-col gap-6 lg:gap-0 lg:justify-between">
             {contactInfo.map((item) => (
-              <div key={item.label} className="flex items-start gap-4">
+              <div
+                key={item.label}
+                className="flex items-start gap-4 rounded-[20px] p-5"
+                style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}
+              >
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{ backgroundColor: '#e8e8ed' }}
@@ -311,10 +315,46 @@ export default function Contact() {
                 </div>
               </div>
             ))}
+
+            <div
+              className="rounded-[24px] overflow-hidden"
+              style={{
+                backgroundColor: '#ffffff',
+                boxShadow: '0 2px 16px rgba(0,0,0,0.04)',
+                border: '1px solid rgba(29,29,31,0.08)',
+              }}
+            >
+              <div
+                className="relative flex items-center justify-center"
+                style={{
+                  height: '260px',
+                  background:
+                    'linear-gradient(135deg, rgba(34,211,238,0.18) 0%, rgba(59,130,246,0.2) 100%)',
+                }}
+              >
+                <div className="text-center z-10 px-6">
+                  <MapPin size={46} color="#0891b2" style={{ margin: '0 auto 14px' }} />
+                  <p className="text-base font-semibold" style={{ color: '#0f172a' }}>
+                    {lang === 'zh' ? '福州大学' : 'Fuzhou University'}
+                  </p>
+                  <p className="text-sm mt-1" style={{ color: '#475569' }}>
+                    {lang === 'zh' ? '中国 · 福建福州' : 'Fujian, China'}
+                  </p>
+                </div>
+                <div
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    backgroundImage:
+                      'linear-gradient(rgba(8,145,178,0.28) 1px, transparent 1px), linear-gradient(90deg, rgba(8,145,178,0.28) 1px, transparent 1px)',
+                    backgroundSize: '20px 20px',
+                  }}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="lg:w-1/2">
-            <div className="rounded-[24px] p-8" style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
+          <div className="lg:w-1/2 lg:flex">
+            <div className="w-full lg:h-full rounded-[24px] p-8" style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
               <h3 className="font-semibold mb-2" style={{ fontSize: '20px', color: '#1d1d1f', letterSpacing: '-0.01em' }}>
                 {t.messageTitle}
               </h3>
