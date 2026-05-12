@@ -281,7 +281,6 @@ export default function Contact() {
       icon: Mail,
       label: t.emailLabel,
       value: 'xwu@fzu.edu.cn',
-      href: 'mailto:xwu@fzu.edu.cn',
     },
     {
       icon: Building,
@@ -330,39 +329,33 @@ export default function Contact() {
         </div>
 
         <div ref={contentRef} className="pb-24">
-          <div className="max-w-[820px] mx-auto flex flex-col gap-6">
-            {contactInfo.map((item) => (
-              <div
-                key={item.label}
-                className="flex items-start gap-4 rounded-[20px] p-5"
-                style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}
-              >
+          <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {contactInfo.map((item) => (
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: '#e8e8ed' }}
+                  key={item.label}
+                  className="h-full rounded-[20px] p-5 md:p-6"
+                  style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}
                 >
-                  <item.icon size={18} color="#1d1d1f" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold mb-1" style={{ color: '#1d1d1f' }}>
-                    {item.label}
-                  </h4>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      className="text-sm transition-opacity hover:opacity-70"
-                      style={{ color: '#0066cc' }}
+                  <div className="flex items-start gap-4 h-full">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ backgroundColor: '#e8e8ed' }}
                     >
-                      {item.value}
-                    </a>
-                  ) : (
-                    <p className="text-sm whitespace-pre-line" style={{ color: '#86868b', lineHeight: 1.6 }}>
-                      {item.value}
-                    </p>
-                  )}
+                      <item.icon size={18} color="#1d1d1f" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-semibold mb-1" style={{ color: '#1d1d1f' }}>
+                        {item.label}
+                      </h4>
+                      <p className="text-sm whitespace-pre-line break-all" style={{ color: '#86868b', lineHeight: 1.6 }}>
+                        {item.value}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
             <div
               className="rounded-[24px] overflow-hidden"
@@ -372,7 +365,7 @@ export default function Contact() {
                 border: '1px solid rgba(29,29,31,0.08)',
               }}
             >
-              <div className="relative overflow-hidden" style={{ height: '260px' }}>
+              <div className="relative overflow-hidden" style={{ height: '500px' }}>
                 <div ref={mapContainerRef} className="absolute inset-0 z-0" />
                 <div
                   className="absolute inset-0 z-10 pointer-events-none opacity-20"
