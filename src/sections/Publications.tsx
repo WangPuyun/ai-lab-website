@@ -117,12 +117,12 @@ const sharedPublications = [
   {
     id: 10,
     type: 'paper' as const,
-    title: 'Swinipisr: A super-resolution method for infrared polarization imaging sensors via swin transformer',
-    authors: 'Wu XY, Zhou Bin, Wang XS, Peng J, Lin P, Cao RJ',
+    title: 'SwinIPISR: A Super-Resolution Method for Infrared Polarization Imaging Sensors via Swin Transformer',
+    authors: 'Wu, XY, Zhou, B, Huang, F',
     venue: 'IEEE Sensors Journal',
-    year: '2023',
-    abstract: 'The paper proposes SwinIPISR, a deep-learning super-resolution method that enhances infrared polarization images while preserving their polarization information.',
-    link: 'https://ieeexplore.ieee.org/abstract/document/10325418',
+    year: '2024',
+    abstract: 'The performance of infrared polarization remote sensing systems is limited by sensor resolution.',
+    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001136951300048',
   },
   {
     id: 11,
@@ -187,16 +187,6 @@ const sharedPublications = [
   {
     id: 17,
     type: 'paper' as const,
-    title: 'SwinIPISR: A Super-Resolution Method for Infrared Polarization Imaging Sensors via Swin Transformer',
-    authors: 'Wu, XY, Zhou, B, Huang, F',
-    venue: 'IEEE Sensors Journal',
-    year: '2024',
-    abstract: 'The performance of infrared polarization remote sensing systems is limited by sensor resolution.',
-    link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001136951300048',
-  },
-  {
-    id: 18,
-    type: 'paper' as const,
     title: 'High-Efficiency Multispectral-Polarization Imaging System Using Polarization Camera Array With Notch Filters',
     authors: 'Huang, F, Cao, RJ, Wu, XY',
     venue: 'IEEE Transactions on Instrumentation and Measurement',
@@ -205,7 +195,7 @@ const sharedPublications = [
     link: 'https://webofscience.clarivate.cn/wos/woscc/full-record/WOS%3A001102358800027',
   },
   {
-    id: 19,
+    id: 18,
     type: 'paper' as const,
     title: 'MuS-Polar3D: A Benchmark Dataset for Computational Polarimetric 3D Imaging under Multi-Scattering Conditions',
     authors: 'Wang PY, Yu KM, He HY, Wu XY',
