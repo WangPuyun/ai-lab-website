@@ -37,12 +37,44 @@ type RepoStats = {
 
 const sharedProjects: Project[] = [
   {
+    name: 'IceSfP',
+    desc: 'Structure-Aware Consistency Priors for Shape from Polarization in Complex Media (ICML 2026). A dual-branch network integrating raw polarization features with physics-based priors for robust surface normal estimation.',
+    tags: ['Polarization Imaging', '3D Reconstruction', 'ICML 2026', 'PyTorch'],
+    stars: 0,
+    forks: 0,
+    github: 'https://github.com/ykmmm0/IceSfP',
+  },
+  {
+    name: 'Polarization-3D-Imaging',
+    desc: 'A comprehensive survey of data-driven polarization-based 3D imaging, from physics models to neural implicit representations, covering physics-based, data-driven, and implicit reconstruction methods.',
+    tags: ['Polarization Imaging', '3D Reconstruction', 'Survey', 'Computer Vision'],
+    stars: 6,
+    forks: 0,
+    github: 'https://github.com/ykmmm0/Polarization-3D-Imaging',
+  },
+  {
     name: 'MuS-Polar3D',
     desc: 'MuS-Polar3D dataset repository, containing multiple SfP evaluation baselines, code for plotting error heatmaps, ORB algorithm code, and more.',
     tags: ['3D Reconstruction', 'Deep Learning', 'Polarization Imaging', 'PyTorch'],
     stars: 9,
     forks: 0,
     github: 'https://github.com/WangPuyun/MuS-Polar3D',
+  },
+  {
+    name: 'UD-SfPNet',
+    desc: 'An Underwater Descattering Shape-from-Polarization Network for 3D Normal Reconstruction. A deep learning approach for robust surface normal estimation from underwater polarization images.',
+    tags: ['Descattering', 'Underwater', '3D Reconstruction', 'PyTorch'],
+    stars: 5,
+    forks: 0,
+    github: 'https://github.com/WangPuyun/UD-SfPNet',
+  },
+  {
+    name: 'Mamba-SfP',
+    desc: 'State-space model (Mamba) based architecture for Shape from Polarization. A novel approach leveraging selective structured state spaces for surface normal estimation.',
+    tags: ['Polarization Imaging', '3D Reconstruction', 'Mamba', 'PyTorch'],
+    stars: 2,
+    forks: 0,
+    github: 'https://github.com/WangPuyun/Mamba-SfP',
   },
   {
     name: 'SGuTA-SCubA',
