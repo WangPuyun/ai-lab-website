@@ -84,6 +84,22 @@ const sharedProjects: Project[] = [
     forks: 0,
     github: 'https://github.com/esthen-bit/SGuTA-SCubA',
   },
+  {
+    name: 'CM2RefIRVSR',
+    desc: 'Cross-modal reference-based image/video super-resolution. Code for the CM2RefIRVSR paper, leveraging reference information for improved super-resolution reconstruction.',
+    tags: ['Super-Resolution', 'Image Restoration', 'Deep Learning', 'PyTorch'],
+    stars: 1,
+    forks: 0,
+    github: 'https://github.com/dierwang101/CM2RefIRVSR',
+  },
+  {
+    name: 'LDDRS-ADMMDeblur',
+    desc: 'Deblurring and mosaic removal for Division of Focal Plane (DoFP) polarization images using ADMM optimization. Based on the LDDRS framework for polarization image restoration.',
+    tags: ['Polarization Imaging', 'Image Restoration', 'Deblur', 'MATLAB'],
+    stars: 0,
+    forks: 0,
+    github: 'https://github.com/dierwang101/LDDRS-ADMMDeblur',
+  },
 ]
 
 const projects: Record<'zh' | 'en', Project[]> = {
