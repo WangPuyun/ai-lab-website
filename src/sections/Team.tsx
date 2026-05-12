@@ -110,6 +110,16 @@ export default function Team() {
   const { lang } = useLanguage()
   const t = content[lang]
   const members = teamMembers[lang]
+  const piMonogram =
+    lang === 'zh'
+      ? t.piName.trim().charAt(0)
+      : t.piName
+          .replace(/^Prof\.?\s*/i, '')
+          .split(/\s+/)
+          .filter(Boolean)
+          .slice(0, 2)
+          .map((segment) => segment.charAt(0).toUpperCase())
+          .join('') || 'PI'
   const membersPerPage = 6
   const memberPages = Array.from(
     { length: Math.ceil(members.length / membersPerPage) },
@@ -244,14 +254,47 @@ export default function Team() {
           style={{ backgroundColor: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.04)' }}
         >
           <div className="flex flex-col lg:flex-row">
-            {/* Photo */}
+            {/* Photo-free identity panel */}
             <div className="lg:w-[360px] flex-shrink-0">
-              <img
-                src={`${import.meta.env.BASE_URL}images/pi-photo.jpg`}
-                alt={t.piName}
-                className="w-full h-full object-cover"
-                style={{ minHeight: '320px', maxHeight: '420px' }}
-              />
+              <div
+                className="relative h-full overflow-hidden"
+                style={{
+                  minHeight: '320px',
+                  maxHeight: '420px',
+                  background:
+                    'linear-gradient(150deg, rgba(29,29,31,1) 0%, rgba(44,44,46,1) 44%, rgba(86,86,92,1) 100%)',
+                }}
+              >
+                <div
+                  className="absolute -top-20 -left-12 w-52 h-52 rounded-full"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+                />
+                <div
+                  className="absolute -bottom-24 -right-16 w-64 h-64 rounded-full"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                />
+                <div className="relative z-10 h-full flex flex-col p-8 lg:p-10">
+                  <span
+                    className="text-xs font-medium px-3 py-1 rounded-full inline-flex w-fit"
+                    style={{ color: '#f5f7fa', backgroundColor: 'rgba(255,255,255,0.12)', letterSpacing: '0.04em' }}
+                  >
+                    AOCI LAB
+                  </span>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div
+                      className="w-24 h-24 rounded-2xl flex items-center justify-center text-3xl font-semibold"
+                      style={{ backgroundColor: '#ffffff', color: '#1d1d1f', letterSpacing: '-0.02em' }}
+                    >
+                      {piMonogram}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 opacity-70">
+                    <span className="w-10 h-[2px] rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.38)' }} />
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.7)' }} />
+                    <span className="w-10 h-[2px] rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.38)' }} />
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Info */}

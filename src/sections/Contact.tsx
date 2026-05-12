@@ -1,25 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import type { ChangeEvent, FormEvent } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { MapPin, Mail, Building, Send, LoaderCircle } from 'lucide-react'
+import { MapPin, Mail, Building } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 type MapLoadStatus = 'idle' | 'loading' | 'ready' | 'missing-ak' | 'error'
 
-interface ContactFormState {
-  name: string
-  email: string
-  subject: string
-  message: string
-  website: string
-}
-
-const CONTACT_FORM_ENDPOINT =
-  import.meta.env.VITE_CONTACT_FORM_ENDPOINT?.trim() ?? 'https://formspree.io/f/xnjlegwv'
 const BAIDU_MAP_AK = import.meta.env.VITE_BAIDU_MAP_AK?.trim() ?? ''
 const MAP_ADDRESS = '福建省福州市闽侯县上街镇乌龙江北大道2号 福州大学旗山校区先进技术创新研究院'
 const MAP_CITY = '福州'
@@ -30,18 +18,6 @@ const MAP_FIXED_LAT_RAW = import.meta.env.VITE_BAIDU_MAP_LAT?.trim() ?? ''
 const MAP_FIXED_LNG = MAP_FIXED_LNG_RAW === '' ? Number.NaN : Number(MAP_FIXED_LNG_RAW)
 const MAP_FIXED_LAT = MAP_FIXED_LAT_RAW === '' ? Number.NaN : Number(MAP_FIXED_LAT_RAW)
 const HAS_FIXED_COORDINATE = Number.isFinite(MAP_FIXED_LNG) && Number.isFinite(MAP_FIXED_LAT)
-
-const INITIAL_FORM_STATE: ContactFormState = {
-  name: '',
-  email: '',
-  subject: '',
-  message: '',
-  website: '',
-}
-
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-}
 
 declare global {
   interface Window {
@@ -165,18 +141,9 @@ export default function Contact() {
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const mapInstanceRef = useRef<any>(null)
 
-  const [formData, setFormData] = useState<ContactFormState>(INITIAL_FORM_STATE)
-  const [formStatus, setFormStatus] = useState<FormStatus>('idle')
-  const [statusMessage, setStatusMessage] = useState('')
   const [mapLoadStatus, setMapLoadStatus] = useState<MapLoadStatus>(
     BAIDU_MAP_AK ? 'loading' : 'missing-ak'
   )
-
-  useEffect(() => {
-    setFormData(INITIAL_FORM_STATE)
-    setFormStatus('idle')
-    setStatusMessage('')
-  }, [lang])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -304,88 +271,6 @@ export default function Contact() {
     }
   }, [])
 
-  const updateField =
-    (field: keyof ContactFormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFormData((previous) => ({ ...previous, [field]: event.target.value }))
-      if (formStatus !== 'idle') {
-        setFormStatus('idle')
-        setStatusMessage('')
-      }
-    }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (!CONTACT_FORM_ENDPOINT) {
-      setFormStatus('error')
-      setStatusMessage(t.endpointMissing)
-      return
-    }
-
-    if (formData.website.trim()) {
-      setFormStatus('success')
-      setStatusMessage(t.success)
-      setFormData(INITIAL_FORM_STATE)
-      return
-    }
-
-    const name = formData.name.trim()
-    const email = formData.email.trim()
-    const subject = formData.subject.trim()
-    const message = formData.message.trim()
-
-    if (!name || !email || !subject || !message) {
-      setFormStatus('error')
-      setStatusMessage(t.required)
-      return
-    }
-
-    if (!isValidEmail(email)) {
-      setFormStatus('error')
-      setStatusMessage(t.invalidEmail)
-      return
-    }
-
-    if (message.length < 30) {
-      setFormStatus('error')
-      setStatusMessage(t.messageTooShort)
-      return
-    }
-
-    setFormStatus('submitting')
-    setStatusMessage('')
-
-    try {
-      const response = await fetch(CONTACT_FORM_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          subject,
-          message,
-          source: 'research-group-webpage',
-          language: lang,
-          submittedAt: new Date().toISOString(),
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`)
-      }
-
-      setFormStatus('success')
-      setStatusMessage(t.success)
-      setFormData(INITIAL_FORM_STATE)
-    } catch {
-      setFormStatus('error')
-      setStatusMessage(t.failed)
-    }
-  }
-
   const contactInfo = [
     {
       icon: MapPin,
@@ -444,8 +329,8 @@ export default function Contact() {
           </h2>
         </div>
 
-        <div ref={contentRef} className="flex flex-col lg:flex-row lg:items-stretch gap-12 pb-24">
-          <div className="lg:w-1/2 lg:self-stretch flex flex-col gap-6 lg:gap-0 lg:justify-between">
+        <div ref={contentRef} className="pb-24">
+          <div className="max-w-[820px] mx-auto flex flex-col gap-6">
             {contactInfo.map((item) => (
               <div
                 key={item.label}
@@ -520,130 +405,6 @@ export default function Contact() {
                   {mapNavigateLabel}
                 </a>
               </div>
-            </div>
-          </div>
-
-          <div className="lg:w-1/2 lg:flex">
-            <div className="w-full lg:h-full rounded-[24px] p-8" style={{ backgroundColor: '#ffffff', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
-              <h3 className="font-semibold mb-2" style={{ fontSize: '20px', color: '#1d1d1f', letterSpacing: '-0.01em' }}>
-                {t.messageTitle}
-              </h3>
-              <p className="text-sm mb-6" style={{ color: '#86868b' }}>
-                {t.messageDesc}
-              </p>
-
-              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                <input
-                  type="text"
-                  name="website"
-                  autoComplete="off"
-                  tabIndex={-1}
-                  className="hidden"
-                  value={formData.website}
-                  onChange={updateField('website')}
-                  aria-hidden="true"
-                />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: '#1d1d1f' }}>
-                      {t.nameLabel}
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={updateField('name')}
-                      placeholder={t.namePlaceholder}
-                      disabled={formStatus === 'submitting'}
-                      className="w-full text-sm px-4 py-3 rounded-[14px] outline-none transition-all duration-200 disabled:opacity-70"
-                      style={{ backgroundColor: '#f5f7fa', border: '1.5px solid transparent', color: '#1d1d1f' }}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: '#1d1d1f' }}>
-                      {t.emailFormLabel}
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={updateField('email')}
-                      placeholder={t.emailPlaceholder}
-                      disabled={formStatus === 'submitting'}
-                      className="w-full text-sm px-4 py-3 rounded-[14px] outline-none transition-all duration-200 disabled:opacity-70"
-                      style={{ backgroundColor: '#f5f7fa', border: '1.5px solid transparent', color: '#1d1d1f' }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: '#1d1d1f' }}>
-                    {t.subjectLabel}
-                  </label>
-                  <input
-                    type="text"
-                    name="subject"
-                    required
-                    value={formData.subject}
-                    onChange={updateField('subject')}
-                    placeholder={t.subjectPlaceholder}
-                    disabled={formStatus === 'submitting'}
-                    className="w-full text-sm px-4 py-3 rounded-[14px] outline-none transition-all duration-200 disabled:opacity-70"
-                    style={{ backgroundColor: '#f5f7fa', border: '1.5px solid transparent', color: '#1d1d1f' }}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: '#1d1d1f' }}>
-                    {t.messageLabel}
-                  </label>
-                  <textarea
-                    rows={6}
-                    name="message"
-                    required
-                    value={formData.message}
-                    onChange={updateField('message')}
-                    placeholder={t.messagePlaceholder}
-                    disabled={formStatus === 'submitting'}
-                    className="w-full text-sm px-4 py-3 rounded-[14px] outline-none transition-all duration-200 resize-none disabled:opacity-70"
-                    style={{ backgroundColor: '#f5f7fa', border: '1.5px solid transparent', color: '#1d1d1f' }}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={formStatus === 'submitting'}
-                  className="w-full px-6 py-3 text-sm font-normal rounded-full transition-all duration-300 hover:opacity-90 disabled:opacity-70 flex items-center justify-center gap-1.5"
-                  style={{ backgroundColor: '#1d1d1f', color: '#ffffff' }}
-                >
-                  {formStatus === 'submitting' ? (
-                    <>
-                      <LoaderCircle size={16} className="animate-spin" />
-                      {t.submitting}
-                    </>
-                  ) : (
-                    <>
-                      <Send size={14} />
-                      {t.submitBtn}
-                    </>
-                  )}
-                </button>
-
-                {statusMessage ? (
-                  <p
-                    className="text-sm"
-                    style={{
-                      color: formStatus === 'success' ? '#15803d' : formStatus === 'error' ? '#be123c' : '#86868b',
-                    }}
-                    role="status"
-                  >
-                    {statusMessage}
-                  </p>
-                ) : null}
-              </form>
             </div>
           </div>
         </div>
