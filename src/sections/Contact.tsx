@@ -9,9 +9,9 @@ gsap.registerPlugin(ScrollTrigger)
 type MapLoadStatus = 'idle' | 'loading' | 'ready' | 'missing-ak' | 'error'
 
 const BAIDU_MAP_AK = import.meta.env.VITE_BAIDU_MAP_AK?.trim() ?? ''
-const MAP_ADDRESS = '福建省福州市闽侯县上街镇乌龙江北大道2号 福州大学旗山校区先进技术创新研究院'
+const MAP_ADDRESS = '福建省福州市闽侯县学园路2号福州大学机械工程及自动化学院'
 const MAP_CITY = '福州'
-const MAP_POI_KEYWORD = '福州大学旗山校区先进技术创新研究院'
+const MAP_POI_KEYWORD = '福州大学机械工程及自动化学院'
 const MAP_SEARCH_URL = `https://map.baidu.com/search/${encodeURIComponent(MAP_ADDRESS)}`
 const MAP_FIXED_LNG_RAW = import.meta.env.VITE_BAIDU_MAP_LNG?.trim() ?? ''
 const MAP_FIXED_LAT_RAW = import.meta.env.VITE_BAIDU_MAP_LAT?.trim() ?? ''
