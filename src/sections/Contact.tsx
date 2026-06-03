@@ -70,7 +70,7 @@ const content = {
       '中国福建省福州市大学城学园路2号 福州大学机械工程及自动化学院 350108',
     emailLabel: '电子邮箱',
     labLabel: '所属单位',
-    labText: '福州大学机械工程及自动化学院/先进技术创新研究院',
+    labText: '福州大学机械工程及自动化学院',
     messageTitle: '发送消息',
     messageDesc: '欢迎发送合作咨询、学生申请与学术交流信息，导师将通过邮箱回复。',
     nameLabel: '姓名',
