@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FileText, Award, ArrowUpRight } from 'lucide-react'
@@ -35,26 +35,6 @@ const sharedPublications = [
     link: '',
   },
   {
-    id: 2,
-    type: 'paper' as const,
-    title: 'Single-Shot Real-Time Ultrafast Imaging of Femtosecond Laser Fabrication',
-    authors: 'Yao YH, He YL, Qi DL, Cao FY, Yao JL, Ding PP, Jin CZ, Wu XY, Deng LZ, Jia TQ, Huang F, Liang JY, Sun ZR, Zhang SA',
-    venue: 'ACS Photonics',
-    year: '2021',
-    abstract: 'The paper presents CSMUP, a single-shot ultrafast imaging method for observing femtosecond laser ablation dynamics with high temporal and spatial resolution.',
-    link: 'https://pubs.acs.org/doi/abs/10.1021/acsphotonics.1c00043',
-  },
-  {
-    id: 3,
-    type: 'paper' as const,
-    title: 'Rapid Detection of Camouflaged Artificial Target Based on Polarization Imaging and Deep Learning',
-    authors: 'Shen Y, Lin WF, Wang ZF, Li J, Sun XQ, Wu XY',
-    venue: 'IEEE Photonics Journal',
-    year: '2021',
-    abstract: 'The paper proposes a polarization-guided deep learning method to detect camouflaged artificial targets in natural and low-light scenes.',
-    link: 'https://ieeexplore.ieee.org/abstract/document/9511026',
-  },
-  {
     id: 4,
     type: 'paper' as const,
     title: 'Spectral Clustering Super-Resolution Imaging Based on Multispectral Camera Array',
@@ -65,26 +45,6 @@ const sharedPublications = [
     link: 'https://ieeexplore.ieee.org/abstract/document/10041841',
   },
   {
-    id: 5,
-    type: 'paper' as const,
-    title: 'Flexible foveated imaging using a single Risley-prism imaging system',
-    authors: 'Huang F, Ren H, Wu XY, Wang PF',
-    venue: 'Optics Express',
-    year: '2021',
-    abstract: 'The paper proposes a flexible foveated imaging method using a single Risley-prism system to capture overlapping sub-fields of view.',
-    link: 'https://doi.org/10.1364/OE.442662',
-  },
-  {
-    id: 6,
-    type: 'paper' as const,
-    title: 'High-speed polarization imaging of dynamic collagen fiber realignment in tendon-to-bone insertion region',
-    authors: 'Wu XY, Pankow M, Huang HY, Peters K',
-    venue: 'Journal of biomedical optics',
-    year: '2018',
-    abstract: 'The paper demonstrates high-speed polarization imaging for tracking collagen fiber realignment in biological tissue under dynamic loading.',
-    link: 'https://doi.org/10.1117/1.JBO.23.11.116002',
-  },
-  {
     id: 7,
     type: 'paper' as const,
     title: 'GelFinger: A novel visual-tactile sensor with multi-angle tactile image stitching',
@@ -93,16 +53,6 @@ const sharedPublications = [
     year: '2023',
     abstract: 'The paper proposes GelFinger, a motorized visual-tactile sensor that scans and stitches tactile images to detect defects on large curved surfaces.',
     link: 'https://ieeexplore.ieee.org/abstract/document/10209180',
-  },
-  {
-    id: 8,
-    type: 'paper' as const,
-    title: 'Polarization dehazing method based on spatial frequency division and fusion for a far-field and dense hazy image',
-    authors: 'Huang F, Ke CZ, Wu XY, Wang S, Wu J, Wang XS',
-    venue: 'Applied Optics',
-    year: '2021',
-    abstract: 'The paper proposes an SFDF-based polarization dehazing method for robust long-range imaging in dense haze without manual bias-factor tuning.',
-    link: 'https://doi.org/10.1364/AO.434886',
   },
   {
     id: 9,
@@ -206,9 +156,13 @@ const sharedPublications = [
   },
 ]
 
+const sortedPublications = [...sharedPublications].sort(
+  (a, b) => Number(b.year) - Number(a.year)
+)
+
 const publications = {
-  zh: sharedPublications,
-  en: sharedPublications,
+  zh: sortedPublications,
+  en: sortedPublications,
 }
 export default function Publications() {
   const { lang } = useLanguage()
